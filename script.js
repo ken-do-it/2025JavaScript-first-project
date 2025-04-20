@@ -7,16 +7,19 @@ let chanceArea = document.getElementById("chance-area")
 
 goButton.addEventListener("click", play)
 resetButton.addEventListener("click", reset)
+userInput.addEventListener("focus", function () {userInput.value = ""})
 
 let chance = 5
+let history =[]
+let userPicNum
 
 //1. 
-// function randomPickNum1 () {
-//     randomnum1 = Math.floor(Math.random()*100)+1
-//     console.log("정답", randomnum1)
-// }
+function randomPickNum1 () {
+    randomnum1 = Math.floor(Math.random()*100)+1
+    console.log("정답", randomnum1)
+}
 
-// randomPickNum1()
+randomPickNum1()
 
 
 //2.
@@ -41,27 +44,53 @@ console.log("정답", randomnum3)
 function play () {
 
     chance --
+    userPicNum = userInput.value
+    // let userPicNum = Number(userInput.value) 
+
+
+    if (history.includes(userPicNum)) {
+        resultArea.textContent = "이미 입력한 숫자입니다 다른번호 입력하세요 "
+        return
+    }
+
+    if (userPicNum < 1 || userPicNum > 100) {
+        resultArea.textContent = "1~100 사이의 숫자만 넣어 주세요 "
+        return userPicNum = ""
+    }
+
+    history.push(userPicNum)
+    console.log(" 입력한 값 ", history)
+
     chanceArea.textContent = `남은기회는 ${chance}번`
     if (chance < 1) {
         goButton.disabled = true
     }
     
-    userPicNum =  userInput.value
+
     if (userPicNum < randomnum3) {
      return resultArea.textContent = "Up!!"
     }  else if (userPicNum > randomnum3) {
      return resultArea.textContent = "Down!!"
     } else if (userPicNum == randomnum3) {
-     return resultArea.textContent = " correct!!"
+      resultArea.textContent = " correct!!"
+     goButton.disabled = true
+     
     }
+    
  }
 
+
+
+
 function reset () {
-    console.log ("정답",randomPickNum3())
+    randomPickNum1()
+    // console.log ("정답",randomPickNum1())
     resultArea.textContent = "결과값은 여기 "
     chance = 5
     chanceArea.textContent = `남은기회는 ${chance}번`
     goButton.disabled = false
+    userInput.value = ""
+    history = []
 }
 
 
