@@ -11,7 +11,7 @@ userInput.addEventListener("focus", function () {userInput.value = ""})
 
 let chance = 5
 let history =[]
-let userPicNum
+
 
 //1. 
 function randomPickNum1 () {
